@@ -1,4 +1,6 @@
 export default class Player{
+    moving = false;
+
     constructor(scene, x, y) {
         this.scene = scene;
         this.sprite = scene.add.rectangle(x, y, 50, 50, 0x00ff00);

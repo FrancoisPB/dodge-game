@@ -6,9 +6,32 @@ export default class GameScene extends Phaser.Scene {
         super("GameScene");
     }
 
+    preload() {
+        this.load.spineJson("spineboy-json", "assets/spine/spineboy.json");
+        this.load.spineAtlas("spineboy-atlas", "assets/spine/spineboy.atlas");
+    }
+
     create(){
-        this.player = new Player(this, 400, 550);
+        console.log(this.spine);
+
+        this.currentAnim = "";
+
+        this.player = this.add.spine(
+            400,
+            500,
+            "spineboy-json",
+            "spineboy-atlas"
+        );
+        this.player.setScale(0.15);
+
+        // Give all names for animations
+        console.log(this.player.skeleton.data.animations);
+        
         this.enemies = [];
+
+        // Keyboard inputs
+        this.cursors = this.input.keyboard.createCursorKeys();
+        this.speed = 300;
 
         this.time.addEvent({
             delay: 1000,
@@ -24,18 +47,45 @@ export default class GameScene extends Phaser.Scene {
     }
 
     update(time, delta) {
+        let moving = false;
         const dt = delta / 1000;
 
-        this.player.update(dt);
+        if(this.cursors.left.isDown){
+            this.player.x -= this.speed * dt;
+            this.player.scaleX = -0.15;
+            moving = true;
+        }
+
+        if(this.cursors.right.isDown){
+            this.player.x += this.speed *dt;
+            this.player.scaleX = 0.15;
+            moving = true;
+        }
+
+        if(moving && this.currentAnim !== "run"){
+            this.player.animationState.setAnimation(0, "run", true);
+            this.currentAnim = "run";
+        }
+
+        if(!moving && this.currentAnim !=="idle"){
+            this.player.animationState.setAnimation(0, "idle", true);
+            this.currentAnim = "idle";
+        }
+
+
+        //this.player.update(dt);
         this.enemies.forEach(enemy => {
             enemy.update(dt)
 
-            const dx = enemy.sprite.x - this.player.sprite.x;
-            const dy = enemy.sprite.y - this.player.sprite.y;
+            const dx = enemy.sprite.x - this.player.x;
+            const dy = enemy.sprite.y - this.player.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < 40) {
                 console.log("GAME OVER");
+                this.player.animationState.setAnimation(0, "death", true);
+                this.currentAnim = "death";
+                
                 this.scene.restart();
             }
         });
