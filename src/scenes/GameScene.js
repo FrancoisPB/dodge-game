@@ -14,24 +14,9 @@ export default class GameScene extends Phaser.Scene {
     create(){
         console.log(this.spine);
 
-        this.currentAnim = "";
+        this.player = new Player(this, 400, 500);
 
-        this.player = this.add.spine(
-            400,
-            500,
-            "spineboy-json",
-            "spineboy-atlas"
-        );
-        this.player.setScale(0.15);
-
-        // Give all names for animations
-        console.log(this.player.skeleton.data.animations);
-        
         this.enemies = [];
-
-        // Keyboard inputs
-        this.cursors = this.input.keyboard.createCursorKeys();
-        this.speed = 300;
 
         this.time.addEvent({
             delay: 1000,
@@ -50,28 +35,7 @@ export default class GameScene extends Phaser.Scene {
         let moving = false;
         const dt = delta / 1000;
 
-        if(this.cursors.left.isDown){
-            this.player.x -= this.speed * dt;
-            this.player.scaleX = -0.15;
-            moving = true;
-        }
-
-        if(this.cursors.right.isDown){
-            this.player.x += this.speed *dt;
-            this.player.scaleX = 0.15;
-            moving = true;
-        }
-
-        if(moving && this.currentAnim !== "run"){
-            this.player.animationState.setAnimation(0, "run", true);
-            this.currentAnim = "run";
-        }
-
-        if(!moving && this.currentAnim !=="idle"){
-            this.player.animationState.setAnimation(0, "idle", true);
-            this.currentAnim = "idle";
-        }
-
+        this.player.update(dt);
 
         //this.player.update(dt);
         this.enemies.forEach(enemy => {
