@@ -1,8 +1,16 @@
 export default class Enemy {
     constructor(scene, x, y){
         this.scene = scene;
-        this.sprite = scene.add.rectangle(x, y, 40, 40, 0xff0000);
-        this.speed = 200;
+        this.sprite = this.scene.add.spine(
+            x,
+            y,
+            "spineboy-json",
+            "spineboy-atlas"
+        );
+        this.sprite.setScale(0.08);
+        this.speed = 150;
+
+        this.sprite.animationState.setAnimation(0, "walk", true);
     }
 
     update(delta){
