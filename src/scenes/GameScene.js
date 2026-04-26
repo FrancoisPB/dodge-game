@@ -41,16 +41,17 @@ export default class GameScene extends Phaser.Scene {
         this.enemies.forEach(enemy => {
             enemy.update(dt)
 
-            const dx = enemy.sprite.x - this.player.x;
-            const dy = enemy.sprite.y - this.player.y;
+
+            const dx = enemy.sprite.x - this.player.player.x;
+            const dy = enemy.sprite.y - this.player.player.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
+
+            
 
             if (distance < 40) {
                 console.log("GAME OVER");
-                this.player.animationState.setAnimation(0, "death", true);
-                this.currentAnim = "death";
-                
-                this.scene.restart();
+        
+                this.scene.start("GameOverScene", {score: Math.floor(this.score / 1000)});
             }
         });
 
