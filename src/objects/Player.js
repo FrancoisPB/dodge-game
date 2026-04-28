@@ -3,6 +3,10 @@ export default class Player{
 
     constructor(scene, x, y) {
         this.scene = scene;
+        if(!this.scene.physics){
+            console.error("Physics not enables in scene!");
+            return;
+        }
         
         this.player = this.scene.add.spine(
             400,
@@ -10,6 +14,12 @@ export default class Player{
             "spineboy-json",
             "spineboy-atlas"
         );
+
+        // Hitbox
+        this.body = scene.physics.add.image(x, y, null);
+        this.body.setSize(40,80);
+        this.body.setCollideWorldBounds(true);
+        this.body.setVisible(false);
         
         // Adapt scale
         this.scale = 0.15
@@ -58,5 +68,9 @@ export default class Player{
         }
 
         moving ? this.setState("run") : this.setState("idle");
+
+        // Sync Spine with hitbox
+        this.body.x = this.player.x;
+        this.body.y = this.player.y;
     }
 }

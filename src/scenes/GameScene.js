@@ -12,7 +12,8 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create(){
-        console.log(this.spine);
+
+        this.physics.world.setBounds(0,0,800,600);
 
         this.player = new Player(this, 400, 500);
 
@@ -37,22 +38,15 @@ export default class GameScene extends Phaser.Scene {
 
         this.player.update(dt);
 
-        //this.player.update(dt);
+        this.physics.add.overlap(
+            this.player.body,
+            this.enemies.map(e => e.body), () => {
+                    this.player.setState("death");
+                    this.scene.start("GameOverScene", { score: Math.floor(this.score / 1000) });
+            }
+        )
         this.enemies.forEach(enemy => {
             enemy.update(dt)
-
-
-            const dx = enemy.sprite.x - this.player.player.x;
-            const dy = enemy.sprite.y - this.player.player.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            
-
-            if (distance < 40) {
-                console.log("GAME OVER");
-        
-                this.scene.start("GameOverScene", {score: Math.floor(this.score / 1000)});
-            }
         });
 
         this.score += delta;
