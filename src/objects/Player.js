@@ -9,8 +9,8 @@ export default class Player{
         }
         
         this.player = this.scene.add.spine(
-            400,
-            500,
+            x,
+            y,
             "spineboy-json",
             "spineboy-atlas"
         );
