@@ -67,7 +67,10 @@ export default class Player{
             moving = true;
         }
 
-        moving ? this.setState("run") : this.setState("idle");
+        if (this.state !== "death") {
+
+            moving ? this.setState("run") : this.setState("idle");
+        }
 
         // Sync Spine with hitbox
         this.body.x = this.player.x;

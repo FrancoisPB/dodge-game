@@ -30,6 +30,15 @@ export default class GameScene extends Phaser.Scene {
 
         this.score = 0;
         this.scoreText = this.add.text(10,10, "Score: 0");
+
+        // Particles
+        this.particles = this.add.particles(0, 0, null, {
+            speed: { min: -200, max: 200 },
+            scale: { start: 0.5, end: 0 },
+            lifespan: 500,
+            quantity: 20,
+            emitting: false
+        });
     }
 
     update(time, delta) {
@@ -38,15 +47,25 @@ export default class GameScene extends Phaser.Scene {
 
         this.player.update(dt);
 
-        this.physics.add.overlap(
-            this.player.body,
-            this.enemies.map(e => e.body), () => {
-                    this.player.setState("death");
-                    this.scene.start("GameOverScene", { score: Math.floor(this.score / 1000) });
-            }
-        )
         this.enemies.forEach(enemy => {
-            enemy.update(dt)
+            enemy.update(dt);
+
+            this.physics.add.overlap(this.player.body, enemy.body, () => {
+                this.particles.emitParticleAt(enemy.body.x, enemy.body.y);
+
+                enemy.body.destroy();
+                enemy.sprite.destroy();
+
+                this.player.setState("death");
+
+                this.time.addEvent({
+                    delay: 1300,
+                    loop: false,
+                    callback: () => {
+                        this.scene.start("GameOverScene", { score: Math.floor(this.score / 1000) });
+                    }
+                });
+            });
         });
 
         this.score += delta;
