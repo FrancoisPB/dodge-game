@@ -42,12 +42,15 @@ export default class Player{
         switch(newState){
             case "idle":
                 this.player.animationState.setAnimation(0, "idle", true);
+                this.scene.sound.stopByKey("run");
                 break;
             case "run":
                 this.player.animationState.setAnimation(0, "run", true);
+                this.scene.sound.play("run", {loop: true, seek: 0.4});
                 break;
             case "death":
                 this.player.animationState.setAnimation(0, "death", true);
+                this.scene.sound.play("hit", {seek: 1});
                 break;
         }
     }

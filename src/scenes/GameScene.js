@@ -9,6 +9,8 @@ export default class GameScene extends Phaser.Scene {
     preload() {
         this.load.spineJson("spineboy-json", "assets/spine/spineboy.json");
         this.load.spineAtlas("spineboy-atlas", "assets/spine/spineboy.atlas");
+        this.load.audio("hit", "assets/hit.mp3");
+        this.load.audio("run", "assets/run.mp3");
     }
 
     create(){
@@ -73,6 +75,9 @@ export default class GameScene extends Phaser.Scene {
 
                 // Camera shake
                 this.cameras.main.shake(200, 0.01);
+
+                // Audio
+                this.sound.play("hit");
 
                 enemy.body.destroy();
                 enemy.sprite.destroy();
