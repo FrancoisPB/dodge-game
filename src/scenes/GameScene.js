@@ -1,6 +1,7 @@
 import Player from "../objects/Player";
 import Enemy from "../objects/Enemy";
 import EnemyManager from "../managers/EnemyManager";
+import CollisionManager from "../managers/CollisionManager";
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -29,13 +30,6 @@ export default class GameScene extends Phaser.Scene {
             });
         };
 
-        this.enemyManager = new EnemyManager(this, this.player, cb_goToGameOverScene);
-        this.enemyManager.spawnEnemy();
-
-        this.score = 0;
-        this.scoreText = this.add.text(10,10, "Score: 0");
-
-        // Particles
         this.particles = this.add.particles(0, 0, null, {
             speed: { min: -200, max: 200 },
             scale: { start: 0.5, end: 0 },
@@ -43,6 +37,14 @@ export default class GameScene extends Phaser.Scene {
             quantity: 20,
             emitting: false
         });
+
+        this.enemyManager = new EnemyManager(this);
+        this.enemyManager.spawnEnemy();
+
+        this.collisionManager = new CollisionManager(this, this.player, this.enemyManager, cb_goToGameOverScene);
+
+        this.score = 0;
+        this.scoreText = this.add.text(10,10, "Score: 0");
     }
 
     update(time, delta) {

@@ -1,33 +1,12 @@
 import Enemy from "../objects/Enemy";
 
 export default class EnemyManager{
-    constructor(scene, player, cb_goToGameOverScene) {
+    constructor(scene) {
         this.scene = scene;
         this.enemies = [];
         this.enemyGroup = this.scene.physics.add.group();
         this.spawnDelay = 1000;
-        this.player = player;
-
-        this.scene.physics.add.overlap(
-            this.player.body,
-            this.enemyGroup,
-            (playerBody, enemyBody) => {
-                console.log(enemyBody.x + " : "+enemyBody.y);
-                this.scene.particles.emitParticleAt(enemyBody.x, enemyBody.y);
-
-                // Camera shake
-                this.scene.cameras.main.shake(200, 0.01);
-
-                // Audio
-                this.scene.sound.play("hit");
-
-                this.scene.player.setState("death");
-
-                enemyBody.destroy();
-
-                cb_goToGameOverScene();
-            }
-        )
+        
     }
 
     // Add enemies with progressive difficulty
@@ -63,7 +42,6 @@ export default class EnemyManager{
         this.enemies.forEach(enemy => {
             enemy.update(dt);
 
-            
             if(enemy.body.y > 700) {
                 enemy.body.destroy();
                 enemy.sprite.destroy();
