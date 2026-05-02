@@ -1,3 +1,5 @@
+import { GAME_CONFIG } from "../config/GameConfig";
+
 export default class Player{
     moving = false;
 
@@ -22,10 +24,10 @@ export default class Player{
         this.body.setVisible(false);
         
         // Adapt scale
-        this.scale = 0.15
+        this.scale = GAME_CONFIG.PLAYER.SCALE;
         this.player.setScale(this.scale);
 
-        this.speed = 300;
+        this.speed = GAME_CONFIG.PLAYER.SPEED;
         this.cursors = scene.input.keyboard.createCursorKeys();
 
         this.state = "";

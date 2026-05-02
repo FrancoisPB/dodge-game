@@ -1,3 +1,4 @@
+import { GAME_CONFIG } from "../config/GameConfig";
 export default class Enemy {
     constructor(scene, x, y){
         this.scene = scene;
@@ -12,8 +13,8 @@ export default class Enemy {
             "spineboy-json",
             "spineboy-atlas"
         );
-        this.sprite.setScale(0.08);
-        this.speed = 150;
+        this.sprite.setScale(GAME_CONFIG.ENEMY.SCALE);
+        this.speed = GAME_CONFIG.ENEMY.SPEED;
 
         
         // Hitbox

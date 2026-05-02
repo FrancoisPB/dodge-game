@@ -3,6 +3,7 @@ import Enemy from "../objects/Enemy";
 import EnemyManager from "../managers/EnemyManager";
 import CollisionManager from "../managers/CollisionManager";
 import ScoreSystem from "../systems/ScoreSystem";
+import { GAME_CONFIG } from "../config/GameConfig";
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -17,9 +18,9 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create(){
-        this.physics.world.setBounds(0,0,800,600);
+        this.physics.world.setBounds(0,0,GAME_CONFIG.WORLD.WIDTH,GAME_CONFIG.WORLD.HEIGHT);
 
-        this.player = new Player(this, 400, 600);
+        this.player = new Player(this, GAME_CONFIG.WORLD.WIDTH / 2, GAME_CONFIG.WORLD.HEIGHT);
         
         this.scoreSystem = new ScoreSystem(this);
 
@@ -34,10 +35,10 @@ export default class GameScene extends Phaser.Scene {
         };
 
         this.particles = this.add.particles(0, 0, null, {
-            speed: { min: -200, max: 200 },
-            scale: { start: 0.5, end: 0 },
-            lifespan: 500,
-            quantity: 20,
+            speed: { min: GAME_CONFIG.PARTICLES.MIN_SPEED, max: GAME_CONFIG.PARTICLES.MAX_SPEED },
+            scale: { start: GAME_CONFIG.PARTICLES.START_SCALE, end: GAME_CONFIG.PARTICLES.END_SCALE },
+            lifespan: GAME_CONFIG.PARTICLES.LIFESPAN,
+            quantity: GAME_CONFIG.PARTICLES.QUANTITY,
             emitting: false
         });
 
