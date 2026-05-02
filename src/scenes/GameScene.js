@@ -2,6 +2,7 @@ import Player from "../objects/Player";
 import Enemy from "../objects/Enemy";
 import EnemyManager from "../managers/EnemyManager";
 import CollisionManager from "../managers/CollisionManager";
+import ScoreSystem from "../systems/ScoreSystem";
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -19,13 +20,15 @@ export default class GameScene extends Phaser.Scene {
         this.physics.world.setBounds(0,0,800,600);
 
         this.player = new Player(this, 400, 600);
+        
+        this.scoreSystem = new ScoreSystem(this);
 
         const cb_goToGameOverScene = () => {
             this.time.addEvent({
                 delay: 1300,
                 loop: false,
                 callback: () => {
-                    this.scene.start("GameOverScene", { score: Math.floor(this.score / 1000) });
+                    this.scene.start("GameOverScene", { score: this.scoreSystem.getScore() });
                 }
             });
         };
@@ -43,8 +46,6 @@ export default class GameScene extends Phaser.Scene {
 
         this.collisionManager = new CollisionManager(this, this.player, this.enemyManager, cb_goToGameOverScene);
 
-        this.score = 0;
-        this.scoreText = this.add.text(10,10, "Score: 0");
     }
 
     update(time, delta) {
@@ -52,10 +53,7 @@ export default class GameScene extends Phaser.Scene {
         const dt = delta / 1000;
 
         this.player.update(dt);
-
         this.enemyManager.update(dt);
-
-        this.score += delta;
-        this.scoreText.setText("Score: " + Math.floor(this.score / 1000));
+        this.scoreSystem.update(delta);
     }
 }
