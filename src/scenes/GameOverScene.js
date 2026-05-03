@@ -3,14 +3,14 @@ export default class GameOverScene extends Phaser.Scene {
         super("GameOverScene");
     }
 
-    init(data){
+    init(data) {
         this.score = data.score;
     }
 
     create() {
-        this.add.text(300,250, "Game Over");
-        this.add.text(300,300,"Score: "+this.score);
-        this.add.text(300,350, "Click to restart");
+        this.add.text(300, 250, "Game Over");
+        this.add.text(300, 300, "Score: " + this.score);
+        this.add.text(300, 350, "Click to restart");
 
         this.input.once("pointerdown", () => {
             this.scene.start("GameScene");

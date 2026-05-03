@@ -17,11 +17,11 @@ export default class GameScene extends Phaser.Scene {
         this.load.audio("run", "assets/run.mp3");
     }
 
-    create(){
-        this.physics.world.setBounds(0,0,GAME_CONFIG.WORLD.WIDTH,GAME_CONFIG.WORLD.HEIGHT);
+    create() {
+        this.physics.world.setBounds(0, 0, GAME_CONFIG.WORLD.WIDTH, GAME_CONFIG.WORLD.HEIGHT);
 
         this.player = new Player(this, GAME_CONFIG.WORLD.WIDTH / 2, GAME_CONFIG.WORLD.HEIGHT);
-        
+
         this.scoreSystem = new ScoreSystem(this);
 
         const cb_goToGameOverScene = () => {

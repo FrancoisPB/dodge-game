@@ -1,13 +1,13 @@
 import Enemy from "../objects/Enemy";
 import { GAME_CONFIG } from "../config/GameConfig";
 
-export default class EnemyManager{
+export default class EnemyManager {
     constructor(scene) {
         this.scene = scene;
         this.enemies = [];
         this.enemyGroup = this.scene.physics.add.group();
         this.spawnDelay = GAME_CONFIG.SPAWN.INITIAL_DELAY;
-        
+
     }
 
     // Add enemies with progressive difficulty
@@ -43,7 +43,7 @@ export default class EnemyManager{
         this.enemies.forEach(enemy => {
             enemy.update(dt);
 
-            if(enemy.body.y > GAME_CONFIG.WORLD.HEIGHT + 100) {
+            if (enemy.body.y > GAME_CONFIG.WORLD.HEIGHT + 100) {
                 enemy.body.destroy();
                 enemy.sprite.destroy();
             }

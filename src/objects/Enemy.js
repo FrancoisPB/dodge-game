@@ -1,8 +1,8 @@
 import { GAME_CONFIG } from "../config/GameConfig";
 export default class Enemy {
-    constructor(scene, x, y){
+    constructor(scene, x, y) {
         this.scene = scene;
-        if(!this.scene.physics){
+        if (!this.scene.physics) {
             console.error("Physics not enables in scene!");
             return;
         }
@@ -16,7 +16,7 @@ export default class Enemy {
         this.sprite.setScale(GAME_CONFIG.ENEMY.SCALE);
         this.speed = GAME_CONFIG.ENEMY.SPEED;
 
-        
+
         // Hitbox
         this.body = scene.physics.add.image(x, y, null);
         this.body.setSize(40, 80);
@@ -27,10 +27,10 @@ export default class Enemy {
 
     }
 
-    update(delta){
+    update(delta) {
         this.sprite.y += delta * this.speed;
 
-        
+
         // Sync Spine with hitbox
         this.body.x = this.sprite.x;
         this.body.y = this.sprite.y;

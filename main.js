@@ -10,9 +10,10 @@ const config = {
     type: Phaser.AUTO,
     width: GAME_CONFIG.WORLD.WIDTH,
     height: GAME_CONFIG.WORLD.HEIGHT,
-    physics: {default: 'arcade',
+    physics: {
+        default: 'arcade',
         arcade: {
-            gravity: {y: 0},
+            gravity: { y: 0 },
             debug: false
         }
     },
