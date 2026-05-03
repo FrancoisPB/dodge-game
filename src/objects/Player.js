@@ -52,6 +52,7 @@ export default class Player{
                 break;
             case "death":
                 this.player.animationState.setAnimation(0, "death", true);
+                this.scene.sound.stopByKey("run");
                 this.scene.sound.play("hit", {seek: 1});
                 break;
         }
@@ -60,13 +61,18 @@ export default class Player{
     update(delta) {
         let moving = false;
 
-        if(this.cursors.left.isDown){
+        if (this.cursors.left.isDown) {
             this.player.x -= this.speed * delta;
+            if (this.player.x < 0) {
+                this.player.x = 0;
+            } else if (this.player.x >= GAME_CONFIG.WORLD.WIDTH - this.body.width) {
+                this.player.x = GAME_CONFIG.WORLD.WIDTH - this.body.width;
+            }
             this.player.scaleX = -this.scale;
             moving = true;
         }
 
-        if(this.cursors.right.isDown){
+        if (this.cursors.right.isDown) {
             this.player.x += this.speed *delta;
             this.player.scaleX = this.scale;
             moving = true;
