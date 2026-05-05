@@ -11,10 +11,10 @@ export default class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.spineJson("spineboy-json", "assets/spine/spineboy.json");
-        this.load.spineAtlas("spineboy-atlas", "assets/spine/spineboy.atlas");
-        this.load.audio("hit", "assets/hit.mp3");
-        this.load.audio("run", "assets/run.mp3");
+        this.load.spineJson("spineboy-json", import.meta.env.BASE_URL + "assets/spine/spineboy.json");
+        this.load.spineAtlas("spineboy-atlas", import.meta.env.BASE_URL +  "assets/spine/spineboy.atlas");
+        this.load.audio("hit", import.meta.env.BASE_URL +  "assets/hit.mp3");
+        this.load.audio("run", import.meta.env.BASE_URL +  "assets/run.mp3");
     }
 
     create() {
