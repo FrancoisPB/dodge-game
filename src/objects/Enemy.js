@@ -13,9 +13,8 @@ export default class Enemy {
             "spineboy-json",
             "spineboy-atlas"
         );
-        this.sprite.setScale(GAME_CONFIG.ENEMY.SCALE);
+        this.sprite.setScale(-GAME_CONFIG.ENEMY.SCALE);
         this.speed = GAME_CONFIG.ENEMY.SPEED;
-
 
         // Hitbox
         this.body = scene.physics.add.image(x, y, null);
@@ -23,13 +22,15 @@ export default class Enemy {
         this.body.setCollideWorldBounds(true);
         this.body.setVisible(false);
 
-        this.sprite.animationState.setAnimation(0, "walk", true);
+        this.sprite.animationState.setAnimation(0, "shoot", true);
 
+        // Rotate to fire down
+        const gunBone = this.sprite.skeleton.findBone("gun");
+        gunBone.data.rotation = 90 ;
     }
 
     update(delta) {
         this.sprite.y += delta * this.speed;
-
 
         // Sync Spine with hitbox
         this.body.x = this.sprite.x;

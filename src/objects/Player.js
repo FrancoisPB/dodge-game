@@ -31,7 +31,11 @@ export default class Player {
         this.cursors = scene.input.keyboard.createCursorKeys();
 
         this.state = "";
-        this.setState("idle");
+
+        // To uncomment when searching for bone names
+        // this.player.skeleton.bones.forEach((bone, index) => {
+        //     console.log(index, bone.data.name);
+        // });
     }
 
     setState(newState) {
@@ -42,18 +46,20 @@ export default class Player {
         this.state = newState;
 
         switch (newState) {
-            case "idle":
-                this.player.animationState.setAnimation(0, "idle", true);
-                this.scene.sound.stopByKey("run");
-                break;
             case "run":
                 this.player.animationState.setAnimation(0, "run", true);
                 this.scene.sound.play("run", { loop: true, seek: 0.4 });
                 break;
             case "death":
-                this.player.animationState.setAnimation(0, "death", true);
+                this.player.animationState.setAnimation(0, "death", true,);
                 this.scene.sound.stopByKey("run");
                 this.scene.sound.play("hit", { seek: 1 });
+                break;
+            case "idle":
+                // Fallthrough
+            default:
+                this.player.animationState.setAnimation(0, "idle", true);
+                this.scene.sound.stopByKey("run");
                 break;
         }
     }

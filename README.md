@@ -13,3 +13,4 @@ https://FrancoisPB.github.io/dodge-game/
 - Physics collisions
 - Particles
 - Audio
+- Github deployment script
