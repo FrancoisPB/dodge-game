@@ -29,5 +29,12 @@ export const GAME_CONFIG = {
         END_SCALE: 0,
         QUANTITY: 20,
         LIFESPAN: 500
-    }
+    },
+
+    START_TEXT: {
+        X: 300,
+        Y_DOGDE_GAME: 250,
+        Y_INSTRUCTIONS: 300,
+        Y_CLICK: 350,
+    },
 };
